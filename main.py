@@ -71,7 +71,7 @@ def changement(choix, heroes):
 
 def create_team(heroes):
     afficher_perso(heroes)
-    choix = input("Choisissez 3 personages parmis cela...").split()
+    choix = input("Choisissez 3 personages parmis cela... (Ecrire le nom des perso espacé d'un espace)").split()
     team = converti_equipe_objet(choix, heroes)
     afficher_team(choix, heroes)
     return changement(team, heroes)
@@ -110,7 +110,30 @@ def choix_monstre(monstres):
     return monstre
 
 
+def appliquer_potion(team, monstre, monstre_nom):
+    print("Vous avez le choix entre 3 potions")
+    choix_potion = input("1- Potion de soin -> soigne 20 pv a tous les membres de l'equipe\n 2- Potion de degat -> augmente de 10 les degats de toute l'equipe\n 3- Potion mystere -> Nul ne connait vraiment son effet...\n Quel est votre choix...")
+
+    if choix_potion == "1":
+        for hero in team:
+            hero_nom = list(hero.keys())[0]
+            hero[hero_nom]["PV"] += 20
+        print("Potion de soin utilisee: +20 PV pour toute l'equipe")
+    elif choix_potion == "2":
+        for hero in team:
+            hero_nom = list(hero.keys())[0]
+            hero[hero_nom]["ATK"] += 10
+        print("Potion de degat utilisee: +10 ATK pour toute l'equipe")
+    elif choix_potion == "3":
+        monstre[monstre_nom]["PV"] += 1000
+        print("No no nooo ohohohoh potion maléfique utilisé")
+        print("le monstre gagne 1000pv")
+    else:
+        print("Choix invalide: aucune potion utilisee")
+
+
 def deroulement_partie(team, monstre, monstre_nom):
+    nb_tour = 0
     tour = True  # True = tour du joueur, False = tour du monstre
     while True:
         if tour == True:
@@ -125,7 +148,7 @@ def deroulement_partie(team, monstre, monstre_nom):
                 return True
             print(f"Le monstre a {pv_monstre} PV restants")
             time.sleep(0.5)
-
+            nb_tour += 1
             tour = False  # Changement de tour
 
         else:
@@ -142,7 +165,14 @@ def deroulement_partie(team, monstre, monstre_nom):
                         print(f"{hero_nom} est mort")
                     else:
                         print(f"{hero_nom} a {int(pv_hero)} PV restants")
+            nb_tour += 1
 
+            # Systeme de loot / potions: tous les 3 tours
+            if nb_tour % 3 == 0:
+                print(f"Bravo !! Vous avez atteints {nb_tour} ! ")
+                appliquer_potion(team, monstre, monstre_nom)
+
+                
             # Vérifie si est morte
             equipe_ko = True
             for hero in team:
@@ -156,6 +186,10 @@ def deroulement_partie(team, monstre, monstre_nom):
                 return False
             time.sleep(0.5)
             tour = True  # Changement de tour
+
+
+
+
 
 
 def combat(team, monstres):
@@ -213,7 +247,4 @@ def menu_principal():
             break
         else:
             print("Choix invalide.")
-
-
-if __name__ == "__main__":
-    menu_principal()
+    return 
