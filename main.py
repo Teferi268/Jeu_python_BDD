@@ -13,7 +13,7 @@ from utils import (
     lire_top_scores,
     afficher_top_scores,
 )
-import copy
+
 import random
 import time
 
@@ -24,7 +24,6 @@ def ask_pseudo():
         print("Pseudo incorrecte : lettre uniquement, 12 caractères max.")
         return ask_pseudo()
     return username
-
 
 
 
@@ -164,7 +163,7 @@ def combat(team, monstres):
 
     compteur_win = 0
     while True:
-        monstre = copy.deepcopy(choix_monstre(monstres))
+        monstre = choix_monstre(monstres)
         monstre_nom = list(monstre.keys())[0]
         print(f"\nUn monstre apparait: {monstre_nom} (PV: {monstre[monstre_nom]['PV']})")
 

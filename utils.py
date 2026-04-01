@@ -29,6 +29,7 @@ def charger_heroes_db(collection_heroes):
 		else:
 			for key, value in doc.items():
 				if isinstance(value, dict) and "ATK" in value and "DEF" in value and "PV" in value:
+					#Verifie que c'est bien un dictionaire avant d'ajouter l'heros
 					heroes.append({key: value})
 					break
 	return heroes
@@ -44,6 +45,7 @@ def charger_monstres_db(collection_monstres):
 		else:
 			for key, value in doc.items():
 				if isinstance(value, dict) and "ATK" in value and "DEF" in value and "PV" in value:
+					#Verifie que c'est bien un dictionaire avant d'ajouter le monstre
 					monstres.append({key: value})
 					break
 	return monstres
